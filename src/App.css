@@ -5,6 +5,129 @@
   text-align: center;
 }
 *{
-  background-color: pink;
+  background-color: black;
+  color: white;
+}
+
+.text-background{
+  background-color: purple;
   color: black;
+  padding: 100px;
+  border-radius: 10px;
+}
+
+.logo{
+  width: 80px;
+  border-radius: 50px;
+}
+
+.nav-container{
+  text-align: center;
+  justify-content: space-between;
+}/* General container styling */
+.events-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Section Headers */
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+h3 {
+  margin-top: 15px;
+  font-size: 1.5rem;
+}
+
+/* Today's Events Section */
+.today-events {
+  margin-bottom: 30px;
+}
+
+.events-today {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.today-birthdays, .today-events-list {
+  width: 48%;
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Upcoming Events & Birthdays Section */
+.upcoming-section {
+  margin-bottom: 30px;
+}
+
+.upcoming-cards {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.upcoming-birthdays, .upcoming-events {
+  width: 48%;
+}
+
+.card {
+  background-color: #fff;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card p {
+  font-size: 1.2rem;
+  color: rgb(236, 4, 236);
+}
+
+/* Past Events Section */
+.past-events {
+  margin-top: 30px;
+}
+
+
+.past-events-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.past-events-list .card {
+  width: 48%;
+  background-color: #f9f9f9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .events-today, .upcoming-birthdays, .upcoming-events {
+    width: 100%;
+  }
+
+  .card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+  }
+
+  .card p {
+    font-size: 1rem;
+  }
 }

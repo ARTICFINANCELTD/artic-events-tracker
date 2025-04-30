@@ -1,12 +1,16 @@
 import React from 'react';
 import './App.css';
 import BirthdayTracker from '../src/BirthdayTracker';
+import Nav from './nav';
 
 const App: React.FC = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Customer Birthday Tracker</h1>
+        <div className='nav-container'>
+          <div><h1>Artic Events Tracker</h1></div>
+         <div><Nav/></div> 
+        </div>
         <BirthdayTracker />
       </header>
     </div>

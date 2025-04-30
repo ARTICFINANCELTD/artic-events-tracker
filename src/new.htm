@@ -1,3 +1,4 @@
+no  buddy, this is the code
 import React, { useEffect, useState } from 'react';
 import { format, parse } from 'date-fns';
 
@@ -33,6 +34,8 @@ const events: Event[] = [
 ];
 
 const customers: Customer[] = [
+  { id: 1, name: 'John Doe', dob: '1990-06-26' },
+  { id: 2, name: 'Jane Smith', dob: '1985-07-01' },
   { id: 3, name: "Elite Nursery and Primary School (Mrs Okafor Mercy)", dob: '1971-07-04' },
   { id: 4, name: "Orbit Montessori School (Mrs Amaka Okorie)", dob: '1972-02-14' },
   { id: 5, name: 'Prayota Academy (Michael Igben)', dob: '1968-07-25' },
@@ -51,7 +54,6 @@ const EventList: React.FC = () => {
   const [todayEvents, setTodayEvents] = useState<Event[]>([]);
   const [upcomingBirthdays, setUpcomingBirthdays] = useState<Customer[]>([]);
   const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
-  const [showEvents, setShowEvents] = useState<boolean>(false);
 
   const today = new Date();
   const todayStr = format(today, 'MM-dd');
@@ -88,15 +90,10 @@ const EventList: React.FC = () => {
     setUpcomingEvents(upcomingEv);
   }, [todayStr, currentYear]);
 
-  // Toggle "See Events" button visibility
-  const handleSeeEventsClick = () => {
-    setShowEvents(!showEvents);
-  };
-
   return (
     <div className="events-container">
       {/* Today's Events Section */}
-      <section className={`today-events ${showEvents ? 'visible' : ''}`}>
+      <section className="today-events">
         <h2>Today's Events & Birthdays</h2>
         <div className="events-today">
           <div className="today-birthdays">
@@ -120,7 +117,6 @@ const EventList: React.FC = () => {
             )}
           </div>
         </div>
-        <button className="see-events-btn" onClick={handleSeeEventsClick}>See Events</button>
       </section>
 
       {/* Upcoming Events & Birthdays */}
@@ -177,3 +173,7 @@ const EventList: React.FC = () => {
 };
 
 export default EventList;
+Please pay attention to details  add  transition onscroll effects to eacher container. the first container wrapping the Today's birthdays and event is not aligned center.  i want to have a button there that says 'see events". when  a user clicks, then  you show todays birthday and events
+
+remove the ids containing john and jane smith
+Please pay attention to details. you did not add the transition onscroll effect. the first container wrapping the Today's birthdays and event is not aligned center. and i said earlier that i want to have a button there that says 'see events". when  a user clicks, then  you show todays birthday and events
