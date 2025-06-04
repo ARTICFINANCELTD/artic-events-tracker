@@ -33,23 +33,83 @@ const events: Event[] = [
 ];
 
 const customers: Customer[] = [
-  { id: 3, name: "Elite Nursery and Primary School (Mrs Okafor Mercy)", dob: '1971-07-04' },
-  { id: 4, name: "Orbit Montessori School (Mrs Amaka Okorie)", dob: '1972-02-14' },
-  { id: 5, name: 'Prayota Academy (Michael Igben)', dob: '1968-07-25' },
-  { id: 6, name: "Joe Hybrid Int'l Academy (Dr Emejuobi Joseph Ikechukwu)", dob: '1974-04-20' },
-  { id: 7, name: "Geomarvel Int'l School (Mrs Abaroaha Georgina)", dob: '1972-06-18' },
-  { id: 8, name: "Dazzleville Int'l School (Justina Oritsemisan Omokwe)", dob: '1976-09-19' },
-  { id: 9, name: "Shekinah Glory Academy (Amaefule Chinyeaka Gertrude)", dob: '1980-06-25' },
-  { id: 10, name: "Dayton Model School (Emanso Udongwo)", dob: '1968-09-15' },
-  { id: 11, name: "Crownec Int'l School (Okorome Chinedu)", dob: '1976-06-17' },
-  { id: 12, name: "Glory Innovative Academy (Ohioma Gloria)", dob: '1969-09-26' },
-  { id: 13, name: "Merecer Int'l Academy (Mr Temple E. Odoko)", dob: '1973-01-15' },
+  { id: 1, name: "Mr Prince", dob: '1971-03-22' },
+  { id: 2, name: "Mr Victor", dob: '1971-06-01' },
+  { id: 3, name: "Mr Afam", dob: '1971-04-29' },
+  { id: 4, name: "Nancy", dob: '1971-01-22' },
+  { id: 5, name: "Orbit Montessori School (Mrs Amaka Okorie)", dob: '1972-02-14' },
+  { id: 6, name: 'Prayota Academy (Michael Igben)', dob: '1968-07-25' },
+  { id: 7, name: "Joe Hybrid Int'l Academy (Dr Emejuobi Joseph Ikechukwu)", dob: '1974-04-20' },
+  { id: 8, name: "Geomarvel Int'l School (Mrs Abaroaha Georgina)", dob: '1972-06-18' },
+  { id: 9, name: "Dazzleville Int'l School (Justina Oritsemisan Omokwe)", dob: '1976-09-19' },
+  { id: 10, name: "Shekinah Glory Academy (Amaefule Chinyeaka Gertrude)", dob: '1980-06-25' },
+  { id: 11, name: "Dayton Model School (Emanso Udongwo)", dob: '1968-09-15' },
+  { id: 12, name: "Crownec Int'l School (Okorome Chinedu)", dob: '1976-06-17' },
+  { id: 13, name: "Glory Innovative Academy (Ohioma Gloria)", dob: '1969-09-26' },
+  { id: 14, name: "Merecer Int'l Academy (Mr Temple E. Odoko)", dob: '1973-01-15' },
+  { id: 15, name: "Amavel Intl School", dob: '1971-07-29' },
+  { id: 16, name: "Arinze Prince", dob: '1971-10-16' },
+  { id: 17, name: "Assumpt Chiaka", dob: '1971-08-15' },
+  { id: 18, name: "Baridoo Sam-Joel Intl Sch", dob: '1971-12-07' },
+  { id: 19, name: "Bestow Intl School", dob: '1971-12-07' },
+  { id: 20, name: "Brain Builder School", dob: '1971-07-25' },
+  { id: 21, name: "Brianforte Intl School", dob: '1971-10-05' },
+  { id: 22, name: "Brilliant Intl School", dob: '1971-04-18' },
+  { id: 23, name: "Cais Academy", dob: '1971-08-12' },
+  { id: 24, name: "Dayton Model School", dob: '1971-02-23' },
+  { id: 25, name: "De Famous Intl School", dob: '1971-10-07' },
+  { id: 26, name: "De Shalom School", dob: '1971-04-10' },
+  { id: 27, name: "Fair Child School", dob: '1971-02-19' },
+  { id: 28, name: "Fruitful Star Academy", dob: '1971-03-30' },
+  { id: 29, name: "Gd Academy", dob: '1971-08-04' },
+  { id: 30, name: "Giant Star Academy", dob: '1971-04-20' },
+  { id: 31, name: "Glorious Child Intl School", dob: '1971-12-25' },
+  { id: 32, name: "Gloryland School", dob: '1971-09-17' },
+  { id: 33, name: "God's Word Intl School", dob: '1971-08-23' },
+  { id: 34, name: "Gold Stream Intl School", dob: '1971-11-23' },
+  { id: 35, name: "Goldstar Intl School", dob: '1971-08-29' },
+  { id: 36, name: "Graceful Cherith Model School", dob: '1971-06-18' },
+  { id: 37, name: "Herald Pedagogical School", dob: '1971-04-02' },
+  { id: 38, name: "Holy Priesthood Sch", dob: '1971-05-06' },
+  { id: 39, name: "Intellectual Education Academy", dob: '1971-07-04' },
+  { id: 40, name: "Kamza Allwell", dob: '1971-05-25' },
+  { id: 41, name: "Love Intl Sch", dob: '1971-04-24' },
+  { id: 42, name: "Onyx Montessori School", dob: '1971-07-10' },
+  { id: 43, name: "Point De Perere", dob: '1971-02-10' },
+  { id: 44, name: "Stride Right School", dob: '1971-08-26' },
+  { id: 45, name: "Woodgate Intl School", dob: '1971-08-01' },
+  { id: 46, name: "Avidminds International School", dob: '1971-04-14' },
+  { id: 47, name: "Glojoy Int'l Sch", dob: '1971-12-31' },
+  { id: 48, name: "Greater Lilies Int'l Sch", dob: '1971-07-20' },
+  { id: 49, name: "Lighthouse Royal Academy", dob: '1971-11-25' },
+  { id: 50, name: "De Sunrise", dob: '1971-05-24' },
+  { id: 51, name: "Lordguard Innovative", dob: '1971-01-01' },
+  { id: 52, name: "Preschood Sch", dob: '1971-04-04' },
+  { id: 53, name: "Prequeen Int'l", dob: '1971-02-26' },
+  { id: 54, name: "Maya's Ark Academy", dob: '1971-08-17' },
+  { id: 55, name: "Sinny Weli Nig Ltd", dob: '1971-03-06' },
+  { id: 56, name: "Unique Tender Touch Academy", dob: '1971-02-19' },
+  { id: 57, name: "Vineyard Int'l Sch", dob: '1971-09-28' },
+  { id: 58, name: "Truimph Academy", dob: '1971-07-24' },
+  { id: 59, name: "Tinamund Standard International", dob: '1971-08-26' },
+  { id: 60, name: "Valentine Ezie", dob: '1971-04-05' },
+  { id: 61, name: "Uchenna Ohadugha", dob: '1971-07-27' },
+  { id: 62, name: "Sotami Academy", dob: '1971-02-02' },
+  { id: 63, name: "Fecund Energy", dob: '1971-08-08' },
+  { id: 64, name: "Kadus Academy", dob: '1971-01-10' },
+  { id: 65, name: "Blessed Covenant", dob: '1971-03-13' },
+  { id: 66, name: "Elite School", dob: '1971-07-04' },
+  { id: 67, name: "Dominican Royal Sch", dob: '1971-01-16' },
+  { id: 68, name: "King's Bride Int'l", dob: '1971-06-16' },
 ];
+
+
 
 const EventList: React.FC = () => {
   const [todayBirthdays, setTodayBirthdays] = useState<Customer[]>([]);
   const [todayEvents, setTodayEvents] = useState<Event[]>([]);
   const [upcomingBirthdays, setUpcomingBirthdays] = useState<Customer[]>([]);
+  const [pastBirthdays, setPastBirthdays] = useState<Customer[]>([]);
   const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
   const [showEvents, setShowEvents] = useState<boolean>(false);
 
@@ -57,12 +117,11 @@ const EventList: React.FC = () => {
   const todayStr = format(today, 'MM-dd');
   const currentYear = today.getFullYear();
 
-  // Sorting events by date
   const sortedEvents = events.sort((a, b) => {
-    return parse(a.date, 'MM-dd', new Date(currentYear, 0, 1)).getTime() - parse(b.date, 'MM-dd', new Date(currentYear, 0, 1)).getTime();
+    return parse(a.date, 'MM-dd', new Date(currentYear, 0, 1)).getTime() -
+      parse(b.date, 'MM-dd', new Date(currentYear, 0, 1)).getTime();
   });
 
-  // Categorizing customers and events by month
   useEffect(() => {
     const todayBD = customers.filter((customer) => {
       const dobThisYear = new Date(currentYear, new Date(customer.dob).getMonth(), new Date(customer.dob).getDate());
@@ -73,14 +132,24 @@ const EventList: React.FC = () => {
     const todayEvs = events.filter((event) => event.date === todayStr);
     setTodayEvents(todayEvs);
 
-    // Upcoming Birthdays
     const upcomingBD = customers.filter((customer) => {
       const dobThisYear = new Date(currentYear, new Date(customer.dob).getMonth(), new Date(customer.dob).getDate());
       return dobThisYear > today;
     });
     setUpcomingBirthdays(upcomingBD);
 
-    // Upcoming Events
+    const pastBD = customers
+      .filter((customer) => {
+        const dobThisYear = new Date(currentYear, new Date(customer.dob).getMonth(), new Date(customer.dob).getDate());
+        return dobThisYear < today && format(dobThisYear, 'MM-dd') !== todayStr;
+      })
+      .sort((a, b) => {
+        const aDate = new Date(currentYear, new Date(a.dob).getMonth(), new Date(a.dob).getDate());
+        const bDate = new Date(currentYear, new Date(b.dob).getMonth(), new Date(b.dob).getDate());
+        return bDate.getTime() - aDate.getTime();
+      });
+    setPastBirthdays(pastBD);
+
     const upcomingEv = events.filter((event) => {
       const eventDate = parse(event.date, 'MM-dd', today);
       return eventDate > today;
@@ -88,14 +157,12 @@ const EventList: React.FC = () => {
     setUpcomingEvents(upcomingEv);
   }, [todayStr, currentYear]);
 
-  // Toggle "See Events" button visibility
   const handleSeeEventsClick = () => {
     setShowEvents(!showEvents);
   };
 
   return (
     <div className="events-container">
-      {/* Today's Events Section */}
       <section className={`today-events ${showEvents ? 'visible' : ''}`}>
         <h2>Today's Events & Birthdays</h2>
         <div className="events-today">
@@ -112,8 +179,8 @@ const EventList: React.FC = () => {
           <div className="today-events-list">
             <h3>Today's Events</h3>
             {todayEvents.length > 0 ? (
-              todayEvents.map((event, eventIndex) => (
-                <p key={eventIndex}>{event.name} - {event.date}</p>
+              todayEvents.map((event, index) => (
+                <p key={index}>{event.name} - {event.date}</p>
               ))
             ) : (
               <p>No events today</p>
@@ -123,7 +190,6 @@ const EventList: React.FC = () => {
         <button className="see-events-btn" onClick={handleSeeEventsClick}>See Events</button>
       </section>
 
-      {/* Upcoming Events & Birthdays */}
       <section className="upcoming-section">
         <h2>Upcoming Events & Birthdays</h2>
         <div className="upcoming-cards">
@@ -143,8 +209,8 @@ const EventList: React.FC = () => {
           <div className="upcoming-events">
             <h3>Upcoming Events</h3>
             {upcomingEvents.length > 0 ? (
-              upcomingEvents.map((event, eventIndex) => (
-                <div className="card" key={eventIndex}>
+              upcomingEvents.map((event, index) => (
+                <div className="card" key={index}>
                   <p>{event.name} - {event.date}</p>
                 </div>
               ))
@@ -155,21 +221,32 @@ const EventList: React.FC = () => {
         </div>
       </section>
 
-      {/* Past Events */}
       <section className="past-events">
         <h2>Past Events</h2>
         <div className="past-events-list">
           {sortedEvents.map((event, index) => {
             const eventDate = parse(event.date, 'MM-dd', today);
-            if (eventDate < today) {
-              return (
-                <div key={index} className="card">
-                  <p>{event.name} - {event.date}</p>
-                </div>
-              );
-            }
-            return null;
+            return eventDate < today ? (
+              <div className="card" key={index}>
+                <p>{event.name} - {event.date}</p>
+              </div>
+            ) : null;
           })}
+        </div>
+      </section>
+
+      <section className="past-birthdays">
+        <h2>Past Birthdays</h2>
+        <div className="past-birthdays-list">
+          {pastBirthdays.length > 0 ? (
+            pastBirthdays.map((customer) => (
+              <div className="card" key={customer.id}>
+                <p>{customer.name} - {format(new Date(customer.dob), 'MMMM dd')}</p>
+              </div>
+            ))
+          ) : (
+            <p>No past birthdays</p>
+          )}
         </div>
       </section>
     </div>
