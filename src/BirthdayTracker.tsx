@@ -29,6 +29,7 @@ const events: Event[] = [
   { name: "International Literacy Day", date: "09-08" },
   { name: "Christmas Day", date: "12-25" },
   { name: "Boxing Day", date: "12-26" },
+  { name: "Democracy Day", date: "06-12" },
 ];
 
 const customers: Customer[] = [
