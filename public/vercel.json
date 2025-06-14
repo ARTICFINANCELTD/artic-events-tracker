@@ -1,0 +1,8 @@
+{
+  "builds": [
+    { "src": "api/sendReminder.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/api/sendReminder", "dest": "api/sendReminder.js" }
+  ]
+}

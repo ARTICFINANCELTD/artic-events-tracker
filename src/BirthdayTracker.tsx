@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { format, parse } from "date-fns";
 
 interface Customer {
@@ -31,6 +31,7 @@ const events: Event[] = [
   { name: "Boxing Day", date: "12-26" },
   { name: "Democracy Day", date: "06-12" },
 ];
+
 
 const customers: Customer[] = [
   { id: 1, name: "Mr Prince", dob: "1971-03-22" },
@@ -131,6 +132,7 @@ const customers: Customer[] = [
   { id: 68, name: "King's Bride Int'l", dob: "1971-06-16" },
 ];
 
+
 const BirthdayEvents: React.FC = () => {
   const [todayBirthdays, setTodayBirthdays] = useState<Customer[]>([]);
   const [todayEvents, setTodayEvents] = useState<Event[]>([]);
@@ -143,7 +145,7 @@ const BirthdayEvents: React.FC = () => {
   const today = new Date();
   const todayStr = format(today, "MM-dd");
   const currentYear = today.getFullYear();
-  const currentMonth = today.getMonth(); // 0-based (0=Jan, 5=June)
+  const currentMonth = today.getMonth();
 
   const sortedEvents = [...events].sort((a, b) => {
     const aDate = parse(a.date, "MM-dd", new Date(currentYear, 0, 1));
@@ -151,25 +153,73 @@ const BirthdayEvents: React.FC = () => {
     return aDate.getTime() - bDate.getTime();
   });
 
+  const notificationCounts = useRef<{ [key: string]: number }>({});
+
+  // Ask for notification permission
   useEffect(() => {
-    // Today's birthdays
-    const todays = customers.filter(
-      (cust) => format(new Date(cust.dob), "MM-dd") === todayStr
-    );
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          console.log("Notification permission granted.");
+          new Notification("🔔 Notifications Enabled", {
+            body: "You'll now get birthday and event reminders!",
+          });
+        } else {
+          console.log("Notification permission denied.");
+        }
+      });
+    }
+  }, []);
+
+  // Send test notification on first load (optional)
+  useEffect(() => {
+    if (Notification.permission === "granted") {
+      new Notification("✅ Test Notification", {
+        body: "If you see this, notifications are working!",
+      });
+    }
+  }, []);
+
+  // Send notifications when today's birthdays/events change
+  useEffect(() => {
+    if (Notification.permission !== "granted") return;
+
+    const todayKey = format(new Date(), "yyyy-MM-dd");
+
+    todayBirthdays.forEach((cust) => {
+      const key = `${todayKey}-birthday-${cust.id}`;
+      if (!notificationCounts.current[key]) {
+        new Notification("🎂 Birthday Today!", {
+          body: `${cust.name} is celebrating a birthday today!`,
+        });
+        notificationCounts.current[key] = 1;
+      }
+    });
+
+    todayEvents.forEach((ev, idx) => {
+      const key = `${todayKey}-event-${idx}`;
+      if (!notificationCounts.current[key]) {
+        new Notification("📅 Event Today!", {
+          body: `${ev.name} is happening today!`,
+        });
+        notificationCounts.current[key] = 1;
+      }
+    });
+  }, [todayBirthdays, todayEvents]);
+
+  // Populate birthday and event data
+  useEffect(() => {
+    const todays = customers.filter((cust) => format(new Date(cust.dob), "MM-dd") === todayStr);
     setTodayBirthdays(todays);
 
-    // Today's events
     const todaysEvents = events.filter((ev) => ev.date === todayStr);
     setTodayEvents(todaysEvents);
 
-    // Upcoming birthdays: only in this month or next month, sorted by month/day
     const upcoming = customers
       .filter((cust) => {
         const dob = new Date(cust.dob);
         const dobMonth = dob.getMonth();
-        // Include birthdays in current or next month only
         if (dobMonth === currentMonth) {
-          // If birthday day >= today day, include
           return dob.getDate() >= today.getDate();
         }
         if (dobMonth === (currentMonth + 1) % 12) {
@@ -180,7 +230,6 @@ const BirthdayEvents: React.FC = () => {
       .sort((a, b) => {
         const aDate = new Date(a.dob);
         const bDate = new Date(b.dob);
-        // Sort by month, then day ignoring year
         if (aDate.getMonth() !== bDate.getMonth()) {
           return aDate.getMonth() - bDate.getMonth();
         }
@@ -188,13 +237,11 @@ const BirthdayEvents: React.FC = () => {
       });
     setUpcomingBirthdays(upcoming);
 
-    // Past birthdays: birthdays before today in this year, sorted desc by date
     const past = customers
       .filter((cust) => {
         const dob = new Date(cust.dob);
         const dobMonth = dob.getMonth();
         const dobDay = dob.getDate();
-        // Birthdays before today in this year
         if (dobMonth < currentMonth) return true;
         if (dobMonth === currentMonth && dobDay < today.getDate()) return true;
         return false;
@@ -202,7 +249,6 @@ const BirthdayEvents: React.FC = () => {
       .sort((a, b) => {
         const aDate = new Date(a.dob);
         const bDate = new Date(b.dob);
-        // Sort descending by month/day
         if (aDate.getMonth() !== bDate.getMonth()) {
           return bDate.getMonth() - aDate.getMonth();
         }
@@ -210,7 +256,6 @@ const BirthdayEvents: React.FC = () => {
       });
     setPastBirthdays(past);
 
-    // Upcoming events: from today onwards
     const upcomingEv = sortedEvents.filter((ev) => {
       const evDate = parse(ev.date, "MM-dd", new Date(currentYear, 0, 1));
       const todayDate = new Date(currentYear, today.getMonth(), today.getDate());
@@ -219,103 +264,105 @@ const BirthdayEvents: React.FC = () => {
     setUpcomingEvents(upcomingEv);
   }, [todayStr, currentMonth, currentYear]);
 
- return (
-  <div style={{ padding: 18, fontFamily: "Arial, sans-serif", maxWidth: 800, margin: "auto" }}>
-    <h1 style={{ textAlign: "center"}} className="gradient-text-2">Checking Today's Celebrants..🎉🥳</h1>
+  return (
+    <div style={{ padding: 18, fontFamily: "Arial, sans-serif", maxWidth: 800, margin: "auto" }}>
+      <h1 style={{ textAlign: "center" }} className="gradient-text-2">
+        Checking Today's Celebrants..🎉🥳
+      </h1>
 
-    {/* Today's Birthdays */}
-    <section style={{ background: "#3c1e5b", color: "#fff", padding: "20px", borderRadius: "10px", marginBottom: "20px" }}>
-      <h2>Today's Birthdays ({todayBirthdays.length})</h2>
-      {todayBirthdays.length === 0 ? (
-        <p>No birthdays today.</p>
-      ) : (
-        <div>
-          {todayBirthdays.map((cust) => (
+      <section style={{ background: "#3c1e5b", color: "#fff", padding: "20px", borderRadius: "10px", marginBottom: "20px" }}>
+        <h2>Today's Birthdays ({todayBirthdays.length})</h2>
+        {todayBirthdays.length === 0 ? (
+          <p>No birthdays today.</p>
+        ) : (
+          todayBirthdays.map((cust) => (
             <p key={cust.id}>
               <strong>{cust.name}</strong> — {format(new Date(cust.dob), "MMMM do")}
             </p>
-          ))}
-        </div>
-      )}
-    </section>
+          ))
+        )}
+      </section>
 
-    {/* Today's Events */}
-    <section style={{ background: "#482472", color: "#fff", padding: "20px", borderRadius: "10px", marginBottom: "20px" }}>
-      <h2>
-        Today's Events ({todayEvents.length}){" "}
-        <button
-          style={{ marginLeft: 10, padding: "4px 8px", borderRadius: "4px", cursor: "pointer", background: "gray" }}
-          onClick={() => setShowEvents(!showEvents)}
-          aria-expanded={showEvents}
-        >
-          {showEvents ? "Hide" : "Show"}
-        </button>
-      </h2>
-      {showEvents && (
-        <>
-          {todayEvents.length === 0 ? (
-            <p>No special events today.</p>
-          ) : (
-            <div>
-              {todayEvents.map((ev, idx) => (
-                <p key={idx}>{ev.name}</p>
+      <section style={{ background: "#482472", color: "#fff", padding: "20px", borderRadius: "10px", marginBottom: "20px" }}>
+        <h2>
+          Today's Events ({todayEvents.length}){" "}
+          <button
+            style={{ marginLeft: 10, padding: "4px 8px", borderRadius: "4px", cursor: "pointer", background: "gray" }}
+            onClick={() => setShowEvents(!showEvents)}
+            aria-expanded={showEvents}
+          >
+            {showEvents ? "Hide" : "Show"}
+          </button>
+        </h2>
+        {showEvents && (
+          <>
+            {todayEvents.length === 0 ? (
+              <p>No special events today.</p>
+            ) : (
+              todayEvents.map((ev, idx) => <p key={idx}>{ev.name}</p>)
+            )}
+          </>
+        )}
+      </section>
+
+      <section style={{ background: "#562c89", color: "#fff", padding: "20px", borderRadius: "10px", marginBottom: "20px" }}>
+        <h2>Upcoming Birthdays (This & Next Month)</h2>
+        {upcomingBirthdays.length === 0 ? (
+          <p>No upcoming birthdays in this or next month.</p>
+        ) : (
+          upcomingBirthdays.map((cust) => (
+            <p key={cust.id}>
+              <strong>{cust.name}</strong> — {format(new Date(cust.dob), "MMMM do")}
+            </p>
+          ))
+        )}
+      </section>
+
+      <section style={{ background: "#7044a9", color: "#fff", padding: "20px", borderRadius: "10px", marginBottom: "20px" }}>
+        <h2>Upcoming Events</h2>
+        {upcomingEvents.length === 0 ? (
+          <p>No upcoming events this year.</p>
+        ) : (
+          upcomingEvents.map((ev, idx) => (
+            <p key={idx}>
+              <strong>{ev.name}</strong> — {format(parse(ev.date, "MM-dd", new Date(currentYear, 0, 1)), "MMMM do")}
+            </p>
+          ))
+        )}
+      </section>
+
+      <section style={{ background: "#663399", color: "#fff", padding: "20px", borderRadius: "10px" }}>
+        <h2>Past Birthdays</h2>
+        {pastBirthdays.length === 0 ? (
+          <p>No past birthdays.</p>
+        ) : (
+          <>
+            <div
+              style={{
+                maxHeight: showAllPast ? "none" : "140px",
+                overflow: "hidden",
+                transition: "max-height 0.5s ease",
+              }}
+            >
+              {(showAllPast ? pastBirthdays : pastBirthdays.slice(0, 5)).map((cust) => (
+                <p key={cust.id}>
+                  <strong>{cust.name}</strong> — {format(new Date(cust.dob), "MMMM do")}
+                </p>
               ))}
             </div>
-          )}
-        </>
-      )}
-    </section>
-
-    {/* Upcoming Birthdays */}
-    <section style={{ background: "#562c89", color: "#fff", padding: "20px", borderRadius: "10px", marginBottom: "20px" }}>
-      <h2>Upcoming Birthdays (This & Next Month)</h2>
-      {upcomingBirthdays.length === 0 ? (
-        <p>No upcoming birthdays in this or next month.</p>
-      ) : (
-        <div>
-          {upcomingBirthdays.map((cust) => (
-            <p key={cust.id}>
-              <strong>{cust.name}</strong> — {format(new Date(cust.dob), "MMMM do")}
-            </p>
-          ))}
-        </div>
-      )}
-    </section>
-
-    {/* Past Birthdays */}
-    <section style={{ background: "#663399", color: "#fff", padding: "20px", borderRadius: "10px" }}>
-      <h2>Past Birthdays</h2>
-      {pastBirthdays.length === 0 ? (
-        <p>No past birthdays.</p>
-      ) : (
-        <>
-          <div
-            style={{
-              maxHeight: showAllPast ? "none" : "140px",
-              overflow: "hidden",
-              transition: "max-height 0.5s ease",
-            }}
-          >
-            {(showAllPast ? pastBirthdays : pastBirthdays.slice(0, 5)).map((cust) => (
-              <p key={cust.id}>
-                <strong>{cust.name}</strong> — {format(new Date(cust.dob), "MMMM do")}
-              </p>
-            ))}
-          </div>
-          {pastBirthdays.length > 5 && (
-            <button
-              style={{ marginTop: "10px", padding: "6px 12px", borderRadius: "4px", cursor: "pointer" , background: "gray"}}
-              onClick={() => setShowAllPast(!showAllPast)}
-            >
-              {showAllPast ? "Show Less" : "Show All"}
-            </button>
-          )}
-        </>
-      )}
-    </section>
-  </div>
-);
-
+            {pastBirthdays.length > 5 && (
+              <button
+                style={{ marginTop: "10px", padding: "6px 12px", borderRadius: "4px", cursor: "pointer", background: "gray" }}
+                onClick={() => setShowAllPast(!showAllPast)}
+              >
+                {showAllPast ? "Show Less" : "Show All"}
+              </button>
+            )}
+          </>
+        )}
+      </section>
+    </div>
+  );
 };
 
 export default BirthdayEvents;
